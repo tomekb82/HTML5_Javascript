@@ -1,0 +1,24 @@
+nav {
+	//float:left;
+}
+nav li{
+	font-size: 1.2rem;
+	font-weight: bold;
+	margin: 0.2rem;
+	background-color: blue;
+	border-radius: 0.3rem;
+	padding: 0.5rem;
+	display: inline-block;
+}
+nav li a{
+	text-decoration: none;
+	color: #fff;
+} 
+
+.poprawna{
+	background-color: green;
+}
+
+.bledna{
+	background-color: red;
+}
