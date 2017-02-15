@@ -5,46 +5,46 @@
         <meta charset="utf-8">
         <title>HTML & javascript</title>
         <meta name="viewport" content="width=device-width" />
-<link rel="stylesheet" href="vendor/bootstrap.css">
+        <link rel="stylesheet" href="vendor/bootstrap.css">
 		<link rel="stylesheet" href="css/style.css">
 
-<script src="vendor/jquery.js"></script>
+        <script src="vendor/jquery.js"></script>
 		<script src="vendor/bootstrap.min.js"></script>
 		
     </head>
 
     <body>
 
-<nav>
+        <nav>
 			<ul>
 				<li><a href="index.html">Powrót</a></li>
 			</ul>
 		</nav>	
 
-<div id="supportOutput" class="alert"></div>
-<div id="positionOutput" class="alert alert-info"></div>
+        <!-- Mapa -->
+        <div id="supportOutput" class="alert"></div>
+        <div id="positionOutput" class="alert alert-info hidden"></div>
+        <div id="mapWrapper"> 
+            <div id="map"></div>
+            <div id="mapControl">
+                <form id="mapForm" class="form-inline" formnovalidate>
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="from" placeholder="Podaj lokalizację...">
+                    </div>  
 
-<div id="map" style="width: 100%; height: 300px;"></div>
+                    <button id="showRoute" type="submit" class="btn btn-primary">Pokaż trasę</button>
 
-<!--
-<form id="mapForm" class="form-inline" formnovalidate>-->
-    <div class="form-group">
-        <input type="text" class="form-control" id="from" placeholder="Podaj lokalizację...">
-    </div>
+                    <button id="findPosition" class="btn btn-info hidden" title="Pobierz moją lokalizację">
+                        <span class="glyphicon glyphicon-screenshot"></span>
+                    </button>
+                </form> 
 
-    <button id="showRoute" type="submit" class="btn btn-primary">Pokaż trasę</button>
-
-    <button id="findPosition" class="btn btn-info hidden" title="Wykryj moją lokalizację">
-        <span class="glyphicon glyphicon-screenshot"></span>
-    </button>
-
-
-
-<!--</form> -->
-
-
-<script src="http://maps.google.com/maps/api/js?key=AIzaSyCuJuUvyurLIooBbCeirXfd0f-ZuaoEei8&language=pl"></script>
- <script src="js/geolokacjaMapa.js"></script>
+            </div>
+        </div>       
+        <!-- END Mapa -->
+        
+        <script src="http://maps.google.com/maps/api/js?key=AIzaSyCuJuUvyurLIooBbCeirXfd0f-ZuaoEei8&language=pl"></script>
+        <script src="js/geolokacjaMapa.js"></script>
 
    </body>
 

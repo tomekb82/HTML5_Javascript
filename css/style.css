@@ -27,12 +27,34 @@ nav li a{
 	background-color: red;
 }
 
-form{
-	border:solid 1px;
-	border-radius:5px;
-	padding:5px;
-	color: #476678;
-	margin-bottom: 10px;
-        font-size: 14px;
+#mapWrapper{
+    border:solid 1px;
+    border-radius:4px;
+    width: 100%;
+    height: 308px;
+    padding: 4px;
 }
+#map{
+   
+    width: 70%;
+    height: 300px;
+    float:left;
+}
+
+#mapControl{
+    width:30%;
+    float:right;
+}
+
+form{
+	
+    padding: 3px;
+	color: #476678;
+    font-size: 14px;
+    margin-left: 10px;
+    
+}
+
+
+
 

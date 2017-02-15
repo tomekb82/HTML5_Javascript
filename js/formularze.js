@@ -18,8 +18,8 @@ colorInput.onchange = function(e) {
     colorOutput.value = e.target.value;
     form.style.color = e.target.value;
 }
-
-
+      
+/* Validator */
 function Validator(form) {
     this.form = form;
     this.fields = [];
@@ -39,10 +39,12 @@ function Validator(form) {
     this.form.onsubmit = function(e) {
         e.preventDefault();
 
+        console.log("dd");
         var formValid = this.validate();
 
         if(formValid) {
             this.form.submit();
+            window.localStorage.removeItem(formToSave.formID);
         } else {
             return false;
         }
@@ -114,7 +116,83 @@ Validator.prototype.clearErrors = function() {
         this.clearValidationMark(this.fields[i]);
     }
 }
-
+/* END Validator */
 var validator1 = new Validator(document.querySelector("#form"));
+  
+    
+/* StorageSaver */
+function StorageSaver(form) {
+    this.form = form;
+    this.fields = this.form.querySelectorAll("input[name]:not([type='submit'])");
+    this.formID = this.form.getAttribute("id");
+    this.savedFields = {};
 
+    this.loadSavedFields();
+
+    this.saveFields();
+
+    //this.form.onsubmit = this.clearLocalStorage.bind(this);
+}    
+    
+StorageSaver.prototype.saveFields = function() {
+
+   for(var i = 0; i < this.fields.length; i++) {
+        this.fields[i].onchange = this.saveField.bind(this);
+    }
+
+}    
+StorageSaver.prototype.saveField = function(e) {
+
+    var field = e.target;
+
+    this.savedFields[field.getAttribute("name")] = field.value;
+    
+    this.saveToLocalStorage();
+    console.log(window.localStorage);
+
+}
+
+StorageSaver.prototype.saveToLocalStorage = function() {
+
+    window.localStorage.setItem(this.formID, JSON.stringify(this.savedFields));
+    
+}
+
+StorageSaver.prototype.clearLocalStorage = function(e) {
+
+    //e.preventDefault();
+
+    console.log("clear1");
+    window.localStorage.removeItem(this.formID);
+
+}
+
+StorageSaver.prototype.loadSavedFields = function() {
+
+    var savedStorage = window.localStorage[this.formID];
+
+    if(savedStorage) {
+
+        savedStorage = JSON.parse(savedStorage);
+
+        for(var key in savedStorage) {
+
+            this.form.querySelector("[name='" + key + "']").value = savedStorage[key];
+
+        }
+        console.log(savedStorage);
+    }
+}
+
+/* END StorageSaver */    
+    
+if("localStorage" in window) {
+   var formToSave = new StorageSaver(document.querySelector("#form"));
+} 
+
+    
+    
+    
+    
+    
 })();
