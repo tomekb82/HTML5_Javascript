@@ -55,6 +55,14 @@ form{
     
 }
 
+.videoPlayer .playbackBar {
+    background-color: blue;
+}
+
+.videoPlayer .fullVolume {
+    background-color: darkgreen;
+}
+
 
 
 
