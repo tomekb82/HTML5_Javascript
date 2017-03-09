@@ -1,70 +1,128 @@
 (function() {
 
-console.log(window.applicationCache);
-
+function Chat(host, port){
+    this.host = host;
+    this.port = port;
+    this.initialize();  
+};
     
-// sprawdz czy przegladarka wspiera history API    
-if( !(window.history && history.pushState) ) return;
+    
+Chat.prototype.initialize = function(){
+    if(!window.WebSocket) return;
 
-var search = document.querySelector("#searchInput"),
-    rows = document.querySelectorAll("#table tbody tr"),
-    timer;
+    this.status = document.querySelector("#status");
+    
+    this.loginInput = document.querySelector("#login");
+    this.joinButton = document.querySelector("#join");
+    this.chatWindow = document.querySelector("#chatWindow");
+    this.messageInput = document.querySelector("#message");
+    this.submitButton = document.querySelector("#submit");
+    
+    
+    this.joinButton.onclick = this.joinToChat.bind(this);
 
-function filterTable() {
+    this.connectToServer(); 
+}   
 
-    [].forEach.call(rows, function(row) {
+Chat.prototype.updateMessages = function(dataObject) {
 
-        var cells = row.querySelectorAll("td"),
-            containsText = false;
+    var chatRow = document.createElement("div"),
+        date = new Date(),
+        time = this.formatTime(date.getHours()) + ":" + this.formatTime(date.getMinutes()) + ":" + this.formatTime(date.getSeconds()),
+        message;
 
-        [].forEach.call(cells, function(cell) {
-            var text = cell.textContent.toLowerCase(),
-                search = searchInput.value.toLowerCase();
+    chatRow.classList.add("chatRow");
 
-            if(text.indexOf(search) != -1)
-                containsText = true;
+    if(dataObject.type == "status"){
+        message = "<span class='status'>" + dataObject.message + "</span>";
+    } else{
+        message = "<span class='login'>" + dataObject.login + ": </span><span class='message'>" + dataObject.message + "</span>";
+    }
+        
+    chatRow.innerHTML = "<span class='time'>" + time + "</span>\n" + message;
+    this.chatWindow.appendChild(chatRow);
+    this.chatWindow.scrollTop = this.chatWindow.scrollHeight;
+}
+    
+Chat.prototype.formatTime = function(time){
+    return time < 10 ? "0" + time : time;
+}    
+    
+Chat.prototype.joinToChat = function(e) {
+
+    var login = this.loginInput.value;
+
+    if(login !== "") {
+        this.sendData({
+            type: "join",
+            login: login
         });
 
-        if(containsText)
-            row.style.display = "";
-        else
-            row.style.display = "none";
+        e.target.onclick = null;
+        e.target.setAttribute("disabled", "disabled");
+        this.loginInput.setAttribute("readonly", "readonly");
 
-    });
-
-}
-
-search.onkeyup = function() {
-
-    clearTimeout(timer);
-
-    timer = setTimeout(function() {
-
-        if(search.value != ""){
-            // zapisz wartosc w historii
-            window.history.pushState(search.value, "", "#search=" + encodeURI(search.value));
-        }
-
-    }, 500);
-
-    filterTable();
-
-}
-
-window.onpopstate = function(e) {
-    
-    // pobierz dane z historii
-    if(e.state !== null) {
-        search.value = e.state;
-    
-    } else {
-        // pobierz dane z lokalizacji        
-        var searchValue = window.location.hash.split("=").pop();
-        search.value = decodeURI(searchValue);
+        this.submitButton.removeAttribute("disabled");
+        this.submitButton.onclick = this.sendMessage.bind(this);
     }
-    
-    filterTable();
 
 }
 
+Chat.prototype.connectToServer = function(){
+    this.socket = new WebSocket("ws://" + this.host + ":" + this.port);
+    this.socket.onopen = this.checkConnection.bind(this);
+    this.socket.onmessage = this.displayMessage.bind(this);
+    this.socket.onclose = this.stopApp.bind(this);
+}
+
+Chat.prototype.checkConnection = function(){
+    this.status.innerHTML = "Połączenie z serwerem nawiązane.";
+
+    //this.socket.send("Witam Cię!");
+    //console.log(this.socket);
+}
+
+Chat.prototype.sendMessage = function() {
+
+    var message = this.messageInput.value;
+
+    if(message !== "") {
+        this.sendData({
+            type: "message",
+            message: message
+        });
+        this.messageInput.value = "";
+    }
+}
+
+Chat.prototype.sendData = function(message) {
+    var data = JSON.stringify(message);
+    this.socket.send(data);
+}
+
+Chat.prototype.displayMessage = function(e){
+    
+    //this.status.innerHTML = "Wiadomość z serwera: " + e.data;
+    
+    var dataObject = JSON.parse(e.data);
+    this.updateMessages(dataObject);
+}
+    
+Chat.prototype.stopApp = function(){
+    this.status.innerHTML = "Połączenie z serwerem zakończone.";
+    
+    this.joinButton.onclick = null;
+    this.joinButton.setAttribute("disabled", "disabled");
+
+    this.submitButton.onclick = null;
+    this.submitButton.setAttribute("disabled", "disabled");
+
+    this.updateMessages({
+        type: "status",
+        message: "Przerwano połączenie z serwerem."
+    });
+}
+
+
+var chat1 = new Chat("localhost", "8000");
 })();

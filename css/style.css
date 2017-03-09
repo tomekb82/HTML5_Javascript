@@ -63,6 +63,13 @@ form{
     background-color: darkgreen;
 }
 
+div#status.alert{
+    display: block;
+}
 
+span.login{
+    font-size: 13px;
+    font-weight: bold;
+}
 
 

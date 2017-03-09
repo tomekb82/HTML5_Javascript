@@ -1,62 +1,49 @@
 <!doctype html>
-<html manifest="cache.manifest">
+
 <html>
     <head>
         <meta charset="utf-8">
         <title>HTML & javascript</title>
         <meta name="viewport" content="width=device-width" />
-        <link rel="stylesheet" href="vendor/bootstrap.css">
-        <link rel="stylesheet" href="css/style.css">
+        <link rel="stylesheet" href="../../vendor/bootstrap.css">
+        <link rel="stylesheet" href="../../css/style.css">
     </head>
 
     <body>
 		<nav>
 			<ul>
-				<li><a href="index.html">Powrót</a></li>
+				<li><a href="../../index.html">Powrót</a></li>
 			</ul>
 		</nav>			
 	
-        <img src="img/avatar.png">
-        
-        <div class="form-inline">
-            <div class="form-group">
-                <input type="search" class="form-control" id="searchInput" placeholder="Find">
+       <div id="status" class="alert alert-info">
+       </div>
+               
+               
+        <div id="chat">
+
+            <div class="form-inline">
+                <div class="form-group">
+                    <input type="text" class="form-control" id="login" placeholder="Podaj login">
+                </div>
+                <button class="btn btn-primary" id="join">Dołącz</button>
             </div>
-        </div>
 
-        <br>
+            <hr>
 
-        <table class="table" id="table">
-        <thead>
-            <tr>
-                <td><strong>Name</strong></td>
-                <td><strong>Occupy</strong></td>
-                <td><strong>City</strong></td>
-            </tr>
-        </thead>
+            <div id="chatWindow">
+            </div> 
+             
+            <div class="form-group">
+                <textarea class="form-control" rows="5" id="message" placeholder="Wpis nową wiadomość..."></textarea>
+            </div>
+            
+            <button class="btn btn-primary pull-right" id="submit" disabled>Wyślij</button>
+            
 
-        <tbody>
-            <tr>
-                <td>Adam Kowalski</td>
-                <td>engineer</td>
-                <td>Krakow</td>
-            </tr>
-            <tr>
-                <td>Anna Nowak</td>
-                <td>doctor</td>
-                <td>Lublin</td>
-            </tr>
-            <tr>
-                <td>Tomasz Belina</td>
-                <td>programmer</td>
-                <td>Warsaw</td>
-            </tr>
-        
-        </tbody>
-
-    </table>
+        </div><!-- /#chat -->       
                 
-    <script src="js/applicationCache.js"></script>
+    <script src="webSockets.js"></script>
     </body>
 
 </html>
