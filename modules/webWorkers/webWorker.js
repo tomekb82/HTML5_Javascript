@@ -8,7 +8,7 @@ var button = document.querySelector("#calculateBtn"),
 label.textContent = "Wybierz przycisk !";   
 button.parentElement.appendChild(label);
 
-var worker = new Worker("js/worker.js");
+var worker = new Worker("worker.js");
 
 worker.addEventListener("message", function(e) {
 
