@@ -1,0 +1,45 @@
+<!doctype html>
+<html manifest="cache.manifest">
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>HTML & javascript</title>
+        <meta name="viewport" content="width=device-width" />
+        <link rel="stylesheet" href="../../vendor/bootstrap.css">
+        <link rel="stylesheet" href="../../css/style.css">
+    </head>
+
+    <body>
+		<nav>
+			<ul>
+				<li><a href="../../index.html">Powrót</a></li>
+			</ul>
+		</nav>			
+	
+       <form action="">
+           
+           <div id="status" class="alert alert-info"></div>
+           
+            <div class="form-group">
+                <label for="exampleInputEmail1">Wybierz plik</label>
+                <input type="file" class="form-control" id="fileInput" name="fileInput">
+            </div>
+             
+            <button id="start" class="btn btn-primary">Start</button>
+            <button id="stop" class="btn btn-danger">Stop</button>
+
+            <progress id="progress" value="0" min="0" max="100"></progress>
+           
+            <div id="playground">    
+                <p id="fileName"></p>
+                <p id="fileSize"></p>
+                <p id="fileType"></p>
+                <p id="fileLastModifiedDate"></p>
+            </div>
+            
+        </form>
+                
+    <script src="fileAPI.js"></script>
+    </body>
+
+</html>
