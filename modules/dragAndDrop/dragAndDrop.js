@@ -58,6 +58,10 @@ var imageUploader = {
     addToUploadList: function(file) {
 
         this.formData.append("images[]", file);
+
+console.log("adding");
+console.log(this.formData);
+
         this.filesAdded++;
 
     },
@@ -71,7 +75,7 @@ var imageUploader = {
 
         var xhr = new XMLHttpRequest();
 
-        xhr.open("POST", "localhost:3000", true); // todo
+        xhr.open("POST", "http://localhost:8080/adres", true); // todo
 
         xhr.onload = function(e) {
 
@@ -86,6 +90,8 @@ var imageUploader = {
         }.bind(this);
 
         xhr.onprogress = this.updateProgress.bind(this);
+
+console.log(this.formData);
 
         xhr.send(this.formData);
 
